@@ -22,7 +22,8 @@ class Searcher(TidalBase, SearchMixin):
         found_ids, identifiers = set(), set()
         for cc in COUNTRIES:
             tasks.append(self._search_releases_country(searchstr, cc, limit))
-        for rank in zip_longest((*await asyncio.gather(*tasks))):
+        newlist = [*await asyncio.gather(*tasks)]
+        for rank in zip_longest(newlist):
             for rank_result in rank:
                 if rank_result:
                     cc, rid, result = rank_result
